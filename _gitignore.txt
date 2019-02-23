@@ -1,0 +1,4 @@
+data/*
+transfer_model/*
+result/*
+results/*
