@@ -17,8 +17,11 @@ def save_images(X, save_path):
         rows -= 1
 
     nh, nw = rows, n_samples/rows
-
-    print('X.ndim :', X.ndim)
+    #print('Save path before :', save_path)
+    #path = save_path.split('.')[1]
+    #print('path : ', path)
+    #print('X.ndim :', X.ndim)
+    
     if X.ndim == 2:
         X = np.reshape(X, (X.shape[0], int(np.sqrt(X.shape[1])), int(np.sqrt(X.shape[1]))))
 
@@ -34,6 +37,10 @@ def save_images(X, save_path):
     for n, x in enumerate(X):
         j = n/nw
         i = n%nw
+        #print ('i :',i,' j : ',j)
+        #save_path = '.' + path + '_' + str(j*nw + i) + '.png'
+        #print('Save path after :', save_path)
+        #imsave(save_path, x)
         img[j*h:j*h+h, i*w:i*w+w] = x
 
     imsave(save_path, img)
