@@ -45,8 +45,8 @@ if len(DATA_DIR) == 0:
     raise Exception('Please specify path to data directory in gan_64x64.py!')
 
 MODE = 'wgan-gp'  # dcgan, wgan, wgan-gp, lsgan
-SAVE_SAMPLES_STEP = 50  # Generate and save samples every SAVE_SAMPLES_STEP
-CHECKPOINT_STEP = 4000
+SAVE_SAMPLES_STEP = 1000  # Generate and save samples every SAVE_SAMPLES_STEP
+CHECKPOINT_STEP = 1000
 
 ITER_START = 0
 
@@ -75,7 +75,7 @@ BN_G = True
 # Log subdirectories are automatically created from
 # the above settings and the current timestamp.
 N_GPUS = 1  # Number of GPUs
-BATCH_SIZE = 16  # Batch size. Must be a multiple of N_GPUS
+BATCH_SIZE = 64 # Batch size. Must be a multiple of N_GPUS
 LAMBDA = 10  # Gradient penalty lambda hyperparameter
 OUTPUT_DIM = N_PIXELS * N_PIXELS * 3  # Number of pixels in each iamge
 
@@ -364,7 +364,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
 
     # Dataset iterator
     # train_gen, dev_gen = lib.data_loader.load(BATCH_SIZE, DATA_DIR, DATASET)
-    DATA_DIR = "/content/drive/My Drive/fyp/Transferring-GANs/data/celeba"
+    DATA_DIR = "data/celeba"
     train_gen = lib.load_data_conditional.load(BATCH_SIZE, DATA_DIR, NUM_TRAIN=10000)
 
 

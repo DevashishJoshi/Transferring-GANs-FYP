@@ -18,6 +18,7 @@ def save_images(X, save_path):
 
     nh, nw = rows, n_samples/rows
 
+    print('X.ndim :', X.ndim)
     if X.ndim == 2:
         X = np.reshape(X, (X.shape[0], int(np.sqrt(X.shape[1])), int(np.sqrt(X.shape[1]))))
 

@@ -3,5 +3,3 @@ transfer_model/*
 result/*
 results/*
 *.pyc
-tflib/*.pyc
-tflib/ops/*.pyc

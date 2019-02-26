@@ -21,12 +21,13 @@ def make_generator(path, n_files, batch_size,image_size, IW = False, phase='trai
     def get_epoch():
         images = np.zeros((batch_size, 3, image_size, image_size), dtype='int32')
         labels = np.zeros((batch_size, embedding_size), dtype='int32')
-        files = range(len(image_list))
+        #files = range(len(image_list))
         random_state = np.random.RandomState(epoch_count[0])
-        random_state.shuffle(files)
+        #random_state.shuffle(files)
         embeddings = load_embeddings()
         epoch_count[0] += 1
-        image_list = [image_list[i] for i in files]
+        #random_state.shuffle(image_list)
+        #image_list = [image_list[i] for i in files]
         for i, image_name in enumerate(image_list):
             image = scipy.misc.imread("{}".format(image_path + image_name))
             image_name_wo_ext = image_name.split('.')[0]
