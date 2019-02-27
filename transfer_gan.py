@@ -347,10 +347,26 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
     fixed_noise = tf.constant(np.random.normal(size=(100, 128)).astype('float32'))
     # fixed_labels = tf.constant(np.array([0,1,2,3,4,5,6,7,8,9]*10,dtype='int32'))
     fixed_labels, fixed_labels_image_names = give_me_embeddings(100)
+    print('Fixed Label Image names : ',fixed_labels_image_names)
     fixed_labels_placeholder = tf.placeholder(tf.float32, shape=[100, embedding_size])
     fixed_noise_samples = Generator(100, labels=fixed_labels_placeholder, noise=None)
     feed_dict_for_generation = {fixed_labels_placeholder: fixed_labels}
-
+    
+    images_list = []
+    for img in fixed_labels_image_names:
+        images_list.append('./data/celeba/train/' + img + '.jpg')
+    print(images_list)
+    
+    image_list_temp = np.zeros((100, 3, N_PIXELS, N_PIXELS))
+    for i, image_name in enumerate(images_list):
+        image = scipy.misc.imread("{}".format(image_name))
+        image = scipy.misc.imresize(image,(N_PIXELS,N_PIXELS))
+        image = image.transpose(2,0,1)
+        #image = ((image + 1.) * (255. / 2)).astype('int32')
+        image_list_temp[i] = image
+    
+    lib.save_images.save_images(image_list_temp,
+                                    SAMPLES_DIR + 'original.png', False)
 
     def generate_image(frame):
         samples = session.run(fixed_noise_samples, feed_dict=feed_dict_for_generation)
