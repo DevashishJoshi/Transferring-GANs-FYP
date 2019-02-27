@@ -10,6 +10,7 @@ import functools
 
 import numpy as np
 import tensorflow as tf
+import scipy.misc
 
 import tflib as lib
 import tflib.save_images
@@ -36,8 +37,11 @@ MODEL_DIR = RESULT_DIR + '/model/'
 # TARGET_DOMAIN = 'lsun'# Name of target domain
 SOURCE_DOMAIN = 'celebA'  # imagenet, places, celebA, bedroom,
 ACGAN = True
-if ACGAN:
+load_my_model = False
+if ACGAN and not load_my_model:
     PRETRAINED_MODEL = './transfer_model/conditional/%s/wgan-gp.model' % SOURCE_DOMAIN
+elif ACGAN:
+    PRETRAINED_MODEL = os.path.join(MODEL_DIR, "WGAN_GP.model")
 else:
     PRETRAINED_MODEL = './transfer_model/unconditional/%s/wgan-gp.model' % SOURCE_DOMAIN
 
@@ -347,7 +351,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
     fixed_noise = tf.constant(np.random.normal(size=(100, 128)).astype('float32'))
     # fixed_labels = tf.constant(np.array([0,1,2,3,4,5,6,7,8,9]*10,dtype='int32'))
     fixed_labels, fixed_labels_image_names = give_me_embeddings(100)
-    print('Fixed Label Image names : ',fixed_labels_image_names)
+    #print('Fixed Label Image names : ',fixed_labels_image_names)
     fixed_labels_placeholder = tf.placeholder(tf.float32, shape=[100, embedding_size])
     fixed_noise_samples = Generator(100, labels=fixed_labels_placeholder, noise=None)
     feed_dict_for_generation = {fixed_labels_placeholder: fixed_labels}
@@ -355,7 +359,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
     images_list = []
     for img in fixed_labels_image_names:
         images_list.append('./data/celeba/train/' + img + '.jpg')
-    print(images_list)
+    #print(images_list)
     
     image_list_temp = np.zeros((100, 3, N_PIXELS, N_PIXELS))
     for i, image_name in enumerate(images_list):
@@ -415,6 +419,9 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
                 var_shape = curr_var.get_shape().as_list()
                 if var_shape == saved_shapes[saved_var_name]:
                     restore_vars.append(curr_var)
+        print('Printing restore_vars')
+        for restore_var in restore_vars:
+            print(restore_var)            
         saver = tf.train.Saver(restore_vars)
         saver.restore(session, save_file)
 

@@ -6,9 +6,9 @@ import numpy as np
 import scipy.misc
 from scipy.misc import imsave
 
-def save_images(X, save_path):
-    # [0, 1] -> [0,255]
-    if isinstance(X.flatten()[0], np.floating):
+def save_images(X, save_path, float_to_int=True):
+#[0, 1] -> [0,255]
+    if isinstance(X.flatten()[0], np.floating) and float_to_int:
         X = (255.99*X).astype('uint8')
 
     n_samples = X.shape[0]

@@ -26,7 +26,7 @@ def make_generator(path, n_files, batch_size,image_size, IW = False, phase='trai
         #random_state.shuffle(files)
         embeddings = load_embeddings()
         epoch_count[0] += 1
-        #random_state.shuffle(image_list)
+        random_state.shuffle(image_list)
         #image_list = [image_list[i] for i in files]
         for i, image_name in enumerate(image_list):
             image = scipy.misc.imread("{}".format(image_path + image_name))
