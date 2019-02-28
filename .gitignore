@@ -3,3 +3,4 @@ transfer_model/*
 result/*
 results/*
 *.pyc
+img_align_celeba/*
