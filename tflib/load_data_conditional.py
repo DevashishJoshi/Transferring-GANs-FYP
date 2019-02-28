@@ -5,6 +5,7 @@ import time
 import pdb
 from config import celeba_h, celeba_w, embeddings_file_name, embedding_size
 from config import celeba_image_path as image_path
+np.random.seed(0)
 
 def load_embeddings():
     #l = os.listdir(config.embeddings_dir)
@@ -28,16 +29,23 @@ def make_generator(path, n_files, batch_size,image_size, IW = False, phase='trai
         epoch_count[0] += 1
         random_state.shuffle(image_list)
         #image_list = [image_list[i] for i in files]
-        for i, image_name in enumerate(image_list):
+        i = 0
+        for image_name in image_list:
             image = scipy.misc.imread("{}".format(image_path + image_name))
             image_name_wo_ext = image_name.split('.')[0]
-            label = embeddings[image_name_wo_ext]
-
+            try:
+                #print("In try")
+                #print("Img name wo extention: "+ image_name_wo_ext)
+                label = embeddings[image_name_wo_ext]
+            except:
+                #print("In exceptim")
+                continue
             image = scipy.misc.imresize(image,(image_size,image_size))
             images[i % batch_size] = image.transpose(2,0,1)
             labels[i % batch_size] = label
             if i > 0 and i % batch_size == 0:
                 yield (images,labels)
+            i += 1
     
     return get_epoch
   

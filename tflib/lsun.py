@@ -2,6 +2,7 @@ import numpy as np
 import scipy.misc
 import time
 import cv2
+np.random.seed(0)
 
 from os import listdir
 

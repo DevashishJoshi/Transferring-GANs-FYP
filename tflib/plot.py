@@ -12,6 +12,10 @@ _since_beginning = collections.defaultdict(lambda: {})
 _since_last_flush = collections.defaultdict(lambda: {})
 
 _iter = [0]
+
+def init(ITER_START):
+  _iter[0] = ITER_START
+
 def tick():
 	_iter[0] += 1
 
