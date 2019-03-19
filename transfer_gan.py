@@ -57,7 +57,7 @@ elif ACGAN:
         ext = re.split('[.]', model)[-1]
         if ext!='meta' and ext!='index':
             print(model)
-            x = re.split('[.-]', model)[2]
+            x = int(re.split('[.-]', model)[2])
             if x>max_iteration:
                 max_model_name = model
                 max_iteration = x
@@ -73,8 +73,8 @@ if len(DATA_DIR) == 0:
     raise Exception('Please specify path to data directory in gan_64x64.py!')
 
 MODE = 'wgan-gp'  # dcgan, wgan, wgan-gp, lsgan
-SAVE_SAMPLES_STEP = 1000  # Generate and save samples every SAVE_SAMPLES_STEP
-CHECKPOINT_STEP = 1000
+SAVE_SAMPLES_STEP = 200  # Generate and save samples every SAVE_SAMPLES_STEP
+CHECKPOINT_STEP = 500
 
 ITER_START = 0
 if load_my_model == True:
@@ -459,8 +459,8 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
             
         lib.plot.plot('%s/time' % RESULT_DIR, time.time() - start_time)
 
-        generate_image(iteration)
-        if iteration < 100 or iteration % SAVE_SAMPLES_STEP == 0:
+        #generate_image(iteration)
+        if iteration % SAVE_SAMPLES_STEP == 0:
             generate_image(iteration)
         # Save checkpoint
         if iteration % CHECKPOINT_STEP == 0:
